@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Netflix 台灣觀影週報</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Bebas+Neue&family=Inter:wght@300;400;500;600&display=swap');
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#0a0a0a;--bg2:#111111;--bg3:#181818;
+  --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.14);
+  --red:#E50914;--red2:#ff3d47;--gold:#f5c842;--green:#22c55e;--blue:#3b82f6;
+  --text:#f0f0f0;--muted:#666;--muted2:#999;
+  --mono:'DM Mono',monospace;--display:'Bebas Neue',sans-serif;--body:'Inter',sans-serif;
+}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:13px;min-height:100vh;}
+.shell{max-width:960px;margin:0 auto;padding:0 1rem 3rem;}
+
+/* HEADER */
+.hd{display:flex;align-items:flex-end;justify-content:space-between;padding:1.25rem 0 0.75rem;border-bottom:1px solid var(--border2);margin-bottom:1.25rem;}
+.logo{font-family:var(--display);font-size:28px;color:var(--red);letter-spacing:2px;line-height:1;}
+.logo-sub{font-family:var(--mono);font-size:10px;color:var(--muted2);letter-spacing:0.15em;text-transform:uppercase;margin-top:2px;}
+.hd-right{font-family:var(--mono);font-size:10px;color:var(--muted);text-align:right;line-height:1.9;}
+.live-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--green);margin-right:5px;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+
+/* TABS */
+.tabs{display:flex;gap:0;margin-bottom:1.25rem;border-bottom:1px solid var(--border);}
+.tab{font-family:var(--mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;padding:8px 18px;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;transition:all 0.15s;background:none;border-top:none;border-left:none;border-right:none;}
+.tab.active{color:var(--red2);border-bottom-color:var(--red);}
+.tab:hover:not(.active){color:var(--text);}
+
+.section{margin-bottom:1.75rem;}
+.sec-label{font-family:var(--mono);font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.sec-label::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* METRICS */
+.metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:1.5rem;}
+.metric{background:var(--bg2);border:1px solid var(--border);border-radius:4px;padding:14px 16px;position:relative;overflow:hidden;}
+.metric::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--red);opacity:0.7;}
+.metric.green::before{background:var(--green);}
+.metric.gold::before{background:var(--gold);}
+.metric.blue::before{background:var(--blue);}
+.m-label{font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;}
+.m-val{font-family:var(--display);font-size:30px;color:var(--text);line-height:1;margin-bottom:4px;}
+.m-val small{font-family:var(--mono);font-size:11px;color:var(--muted2);margin-left:3px;}
+.m-sub{font-family:var(--mono);font-size:10px;color:var(--muted);margin-top:2px;}
+.m-diff{font-family:var(--mono);font-size:10px;margin-top:5px;}
+.m-diff.up{color:var(--green);}
+.m-diff.dn{color:var(--red2);}
+.m-diff.flat{color:var(--muted);}
+
+/* SUBTABS */
+.subtabs{display:flex;gap:6px;margin-bottom:12px;}
+.stab{font-family:var(--mono);font-size:10px;padding:4px 14px;border:1px solid var(--border2);border-radius:2px;cursor:pointer;color:var(--muted2);background:none;letter-spacing:0.08em;transition:all 0.15s;}
+.stab.active{background:var(--red);color:#fff;border-color:var(--red);}
+.stab:hover:not(.active){color:var(--text);}
+
+/* TABLE */
+.rtable{width:100%;border-collapse:collapse;}
+.rtable th{font-family:var(--mono);font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);padding:0 8px 8px;text-align:left;border-bottom:1px solid var(--border);}
+.rtable th.r{text-align:right;}
+.rtable td{padding:9px 8px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.rtable tr:last-child td{border-bottom:none;}
+.rtable tr:hover td{background:var(--bg3);}
+.rnum{font-family:var(--display);font-size:20px;color:var(--muted);min-width:28px;display:inline-block;}
+.rnum.top{color:var(--gold);}
+.rtitle{font-size:13px;color:var(--text);font-weight:500;}
+.rsub{font-size:11px;color:var(--muted2);margin-top:2px;}
+.streak{display:inline-block;font-family:var(--mono);font-size:9px;padding:1px 6px;border-radius:2px;background:rgba(245,200,66,0.12);color:var(--gold);border:1px solid rgba(245,200,66,0.25);margin-left:6px;vertical-align:middle;}
+.country-badge{font-size:12px;color:var(--muted2);white-space:nowrap;}
+.hrs{font-family:var(--mono);font-size:12px;color:var(--text);white-space:nowrap;text-align:right;}
+.chg{font-family:var(--mono);font-size:10px;text-align:right;}
+.chg.up{color:var(--green);}
+.chg.dn{color:var(--red2);}
+.chg.new{color:var(--gold);}
+.chg.flat{color:var(--muted);}
+.score{font-family:var(--mono);font-size:11px;text-align:right;}
+.score .imdb{color:var(--gold);}
+.score .na{color:var(--muted);}
+.airdate{font-family:var(--mono);font-size:10px;color:var(--muted2);text-align:right;white-space:nowrap;}
+
+/* BARS */
+.bar-section{display:flex;flex-direction:column;gap:10px;}
+.bar-row{display:grid;grid-template-columns:100px 1fr 50px;align-items:center;gap:10px;}
+.bar-name{font-family:var(--mono);font-size:11px;color:var(--muted2);text-align:right;}
+.bar-track{height:6px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:2px;}
+.bar-pct{font-family:var(--mono);font-size:11px;color:var(--text);}
+
+/* CHART */
+.chart-wrap{position:relative;width:100%;}
+
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+
+/* LOADING */
+.loading{text-align:center;padding:3rem;font-family:var(--mono);font-size:12px;color:var(--muted);}
+.error-box{background:rgba(229,9,20,0.08);border:1px solid rgba(229,9,20,0.2);border-radius:4px;padding:1rem;font-family:var(--mono);font-size:11px;color:var(--red2);margin-bottom:1rem;}
+
+/* LEGEND */
+.legend{display:flex;gap:16px;margin-bottom:8px;font-family:var(--mono);font-size:10px;color:var(--muted2);}
+.legend span{display:flex;align-items:center;gap:5px;}
+.ldot{width:10px;height:3px;border-radius:2px;display:inline-block;}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <div class="hd">
+    <div>
+      <div class="logo">NETFLIX WATCH</div>
+      <div class="logo-sub">台灣觀影數據週報</div>
+    </div>
+    <div class="hd-right" id="hd-meta">
+      <div><span class="live-dot"></span>數據來源：Netflix Top 10 官方榜單</div>
+      <div id="hd-week">載入中...</div>
+    </div>
+  </div>
+
+  <div id="error-area"></div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchMain('overview')">總覽</button>
+    <button class="tab" onclick="switchMain('ranks')">台灣排行</button>
+    <button class="tab" onclick="switchMain('breakdown')">類型分析</button>
+  </div>
+
+  <!-- OVERVIEW -->
+  <div id="main-overview" class="tab-content active">
+    <div class="section">
+      <div class="sec-label">本週核心指標</div>
+      <div class="metrics" id="metrics-area">
+        <div class="metric"><div class="loading">載入中...</div></div>
+        <div class="metric"><div class="loading">載入中...</div></div>
+        <div class="metric"><div class="loading">載入中...</div></div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="sec-label">全球 Top 10 — 本週總覽</div>
+      <table class="rtable">
+        <thead><tr>
+          <th style="width:36px">#</th>
+          <th>作品</th>
+          <th>國家</th>
+          <th class="r">IMDb</th>
+          <th class="r">上線日期</th>
+          <th class="r">觀看時數</th>
+          <th class="r">週變化</th>
+        </tr></thead>
+        <tbody id="overview-body"></tbody>
+      </table>
+    </div>
+    <div class="section">
+      <div class="sec-label">過去數週 — 台灣作品觀看時數趨勢</div>
+      <div class="legend">
+        <span><span class="ldot" style="background:#E50914"></span>台灣作品時數</span>
+        <span><span class="ldot" style="background:rgba(255,255,255,0.2);border-top:1px dashed rgba(255,255,255,0.3)"></span>全球Top10總時數</span>
+      </div>
+      <div class="chart-wrap" style="height:180px"><canvas id="trendChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- RANKS -->
+  <div id="main-ranks" class="tab-content">
+    <div class="section">
+      <div class="subtabs">
+        <button class="stab active" onclick="switchSub('series')">影集</button>
+        <button class="stab" onclick="switchSub('movie')">電影</button>
+        <button class="stab" onclick="switchSub('show')">節目</button>
+      </div>
+      <div class="sec-label" id="rank-label">台灣區影集榜</div>
+      <table class="rtable">
+        <thead><tr>
+          <th style="width:36px">#</th>
+          <th>作品</th>
+          <th>國家</th>
+          <th class="r">IMDb</th>
+          <th class="r">上線日期</th>
+          <th class="r">觀看時數</th>
+          <th class="r">週變化</th>
+        </tr></thead>
+        <tbody id="rank-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- BREAKDOWN -->
+  <div id="main-breakdown" class="tab-content">
+    <div class="section">
+      <div class="sec-label">各類型觀看時數佔比</div>
+      <div class="bar-section" id="type-bars"></div>
+    </div>
+    <div class="section" style="margin-top:1.5rem">
+      <div class="sec-label">台灣 vs 全球 — 各週觀看時數（百萬小時）</div>
+      <div class="legend">
+        <span><span class="ldot" style="background:rgba(229,9,20,0.7)"></span>台灣作品</span>
+        <span><span class="ldot" style="background:rgba(255,255,255,0.12)"></span>非台灣作品</span>
+      </div>
+      <div class="chart-wrap" style="height:180px"><canvas id="compareChart"></canvas></div>
+    </div>
+    <div class="section" style="margin-top:1.5rem">
+      <div class="sec-label">上榜作品國籍分布</div>
+      <div class="bar-section" id="country-bars"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+Chart.defaults.color = '#555';
+Chart.defaults.borderColor = 'rgba(255,255,255,0.05)';
+
+let DATA = null;
+let currentSub = 'series';
+let trendChart = null;
+let compareChart = null;
+
+async function loadData() {
+  try {
+    const res = await fetch('data/data.json?t=' + Date.now());
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    DATA = await res.json();
+    renderAll();
+  } catch(e) {
+    document.getElementById('error-area').innerHTML = `
+      <div class="error-box">⚠ 數據載入失敗：${e.message}<br>請確認 data/data.json 已正確生成。</div>`;
+  }
+}
+
+function chgBadge(prev, rank) {
+  if (prev === null || prev === undefined) return '<span class="chg new">NEW</span>';
+  const diff = prev - rank;
+  if (diff > 0) return `<span class="chg up">▲${diff}</span>`;
+  if (diff < 0) return `<span class="chg dn">▼${Math.abs(diff)}</span>`;
+  return `<span class="chg flat">—</span>`;
+}
+
+function streakBadge(weeks) {
+  if (!weeks || weeks <= 1) return '';
+  return `<span class="streak">連 ${weeks} 週</span>`;
+}
+
+function renderRow(d) {
+  const imdbHtml = d.imdb_rating
+    ? `<div class="score"><span class="imdb">★ ${d.imdb_rating}</span></div>`
+    : `<div class="score"><span class="na">—</span></div>`;
+  const dateHtml = d.air_date
+    ? `<div class="airdate">${d.air_date}</div>`
+    : `<div class="airdate" style="color:var(--muted)">—</div>`;
+  return `<tr>
+    <td><span class="rnum ${d.rank<=3?'top':''}">${d.rank}</span></td>
+    <td>
+      <div class="rtitle">${d.title}${streakBadge(d.streak_weeks)}</div>
+      <div class="rsub">${d.category==='series'?'影集':d.category==='movie'?'電影':'節目'}</div>
+    </td>
+    <td><span class="country-badge">${d.country_flag||''} ${d.country||''}</span></td>
+    <td>${imdbHtml}</td>
+    <td>${dateHtml}</td>
+    <td class="hrs">${d.hours_viewed ? d.hours_viewed+'M' : '—'}</td>
+    <td>${chgBadge(d.prev_rank, d.rank)}</td>
+  </tr>`;
+}
+
+function renderMetrics() {
+  const w = DATA.current_week;
+  const p = DATA.prev_week || {};
+
+  function diff(cur, prev, unit='', isPercent=false) {
+    if (!prev && prev !== 0) return '';
+    const d = cur - prev;
+    const sign = d > 0 ? '+' : '';
+    const cls = d > 0 ? 'up' : d < 0 ? 'dn' : 'flat';
+    const label = isPercent ? `${sign}${d.toFixed(1)}%` : `${sign}${d}${unit}`;
+    return `<div class="m-diff ${cls}">${d > 0 ? '▲' : d < 0 ? '▼' : ''}${label} vs 上週</div>`;
+  }
+
+  document.getElementById('metrics-area').innerHTML = `
+    <div class="metric">
+      <div class="m-label">台灣上榜作品數</div>
+      <div class="m-val">${w.tw_count} <small>/ 10</small></div>
+      <div class="m-sub">影集 ${w.tw_series||0} · 電影 ${w.tw_movie||0} · 節目 ${w.tw_show||0}</div>
+      ${diff(w.tw_count, p.tw_count, ' 部')}
+    </div>
+    <div class="metric green">
+      <div class="m-label">台灣作品觀看佔比</div>
+      <div class="m-val">${w.tw_pct} <small>%</small></div>
+      <div class="m-sub">Top 10 總時數 ${w.total_hours}M 小時</div>
+      ${diff(w.tw_pct, p.tw_pct, '', true)}
+    </div>
+    <div class="metric gold">
+      <div class="m-label">台灣平均觀看時數</div>
+      <div class="m-val">${w.tw_avg} <small>M hrs</small></div>
+      <div class="m-sub">全球平均 ${w.global_avg}M hrs</div>
+      ${diff(w.tw_avg, p.tw_avg, 'M')}
+    </div>`;
+}
+
+function renderOverviewTable() {
+  document.getElementById('overview-body').innerHTML =
+    DATA.top10.map(renderRow).join('');
+}
+
+function renderTrend() {
+  const hist = DATA.history || [];
+  const labels = hist.map(h => h.week);
+  const twHours = hist.map(h => h.tw_hours);
+  const totalHours = hist.map(h => h.total_hours);
+  if (trendChart) trendChart.destroy();
+  trendChart = new Chart(document.getElementById('trendChart'), {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        { label:'台灣作品', data: twHours, borderColor:'#E50914', backgroundColor:'rgba(229,9,20,0.08)', borderWidth:2, pointRadius:4, pointBackgroundColor:'#E50914', fill:true, tension:0.3 },
+        { label:'全球總時數', data: totalHours, borderColor:'rgba(255,255,255,0.2)', borderWidth:1.5, pointRadius:3, pointBackgroundColor:'#333', fill:false, tension:0.3, borderDash:[4,4] }
+      ]
+    },
+    options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } },
+      scales:{ x:{ ticks:{ font:{family:'DM Mono',size:10} } }, y:{ ticks:{ font:{family:'DM Mono',size:10}, callback:v=>v+'M' } } } }
+  });
+}
+
+function renderRankTable(cat) {
+  const labels = { series:'影集', movie:'電影', show:'節目' };
+  document.getElementById('rank-label').textContent = `台灣區${labels[cat]}榜`;
+  const items = (DATA.by_category && DATA.by_category[cat]) || [];
+  document.getElementById('rank-body').innerHTML = items.length
+    ? items.map(renderRow).join('')
+    : `<tr><td colspan="7" style="text-align:center;padding:2rem;font-family:var(--mono);color:var(--muted);">本週無資料</td></tr>`;
+}
+
+function renderBreakdown() {
+  const bd = DATA.breakdown || {};
+  const types = [
+    { name:'影集', pct: bd.series_pct||0, color:'#3b82f6' },
+    { name:'電影', pct: bd.movie_pct||0, color:'#f5c842' },
+    { name:'節目', pct: bd.show_pct||0, color:'#E50914' },
+  ];
+  document.getElementById('type-bars').innerHTML = types.map(t => `
+    <div class="bar-row">
+      <div class="bar-name">${t.name}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${t.pct}%;background:${t.color}"></div></div>
+      <div class="bar-pct">${t.pct}%</div>
+    </div>`).join('');
+
+  const countries = bd.countries || [];
+  const colors = ['#22c55e','#3b82f6','#f5c842','#999','#E50914'];
+  document.getElementById('country-bars').innerHTML = countries.map((c,i) => `
+    <div class="bar-row">
+      <div class="bar-name">${c.flag||''} ${c.name}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${c.pct}%;background:${colors[i%colors.length]}"></div></div>
+      <div class="bar-pct">${c.pct}%</div>
+    </div>`).join('');
+
+  const hist = DATA.history || [];
+  if (compareChart) compareChart.destroy();
+  compareChart = new Chart(document.getElementById('compareChart'), {
+    type:'bar',
+    data:{
+      labels: hist.map(h=>h.week),
+      datasets:[
+        { label:'台灣作品', data: hist.map(h=>h.tw_hours), backgroundColor:'rgba(229,9,20,0.7)', borderRadius:2 },
+        { label:'非台灣', data: hist.map(h=>+(h.total_hours - h.tw_hours).toFixed(1)), backgroundColor:'rgba(255,255,255,0.1)', borderRadius:2 }
+      ]
+    },
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } },
+      scales:{ x:{ stacked:true, ticks:{ font:{family:'DM Mono',size:10} } }, y:{ stacked:true, ticks:{ font:{family:'DM Mono',size:10}, callback:v=>v+'M' } } } }
+  });
+}
+
+function renderAll() {
+  const w = DATA.current_week;
+  document.getElementById('hd-week').textContent = `週期：${w.week_label || w.week}`;
+  renderMetrics();
+  renderOverviewTable();
+  renderTrend();
+  renderRankTable('series');
+  renderBreakdown();
+}
+
+function switchMain(name) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.getElementById('main-'+name).classList.add('active');
+  document.querySelectorAll('.tab').forEach((el,i) => {
+    el.classList.toggle('active', ['overview','ranks','breakdown'][i]===name);
+  });
+}
+
+function switchSub(cat) {
+  currentSub = cat;
+  document.querySelectorAll('.stab').forEach((el,i) => {
+    el.classList.toggle('active', ['series','movie','show'][i]===cat);
+  });
+  renderRankTable(cat);
+}
+
+loadData();
+</script>
+</body>
+</html>
