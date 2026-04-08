@@ -1,7 +1,18 @@
 {
-  "generated_at": "2025-01-01T00:00:00Z",
-  "_notice": "這是初始佔位檔案，執行 GitHub Actions 後會自動替換為真實數據",
+  "generated_at": "2026-04-08T14:39:30.274621Z",
   "current_week": {
+    "week": "2026-04-05",
+    "week_label": "2026-04-05",
+    "tw_count": 5,
+    "tw_series": 4,
+    "tw_movie": 1,
+    "tw_show": 0,
+    "tw_pct": 49.6,
+    "tw_avg": 35.5,
+    "global_avg": 35.8,
+    "total_hours": 357.7
+  },
+  "prev_week": {
     "week": "尚未更新",
     "week_label": "請先執行 Actions 更新數據",
     "tw_count": 0,
@@ -13,18 +24,428 @@
     "global_avg": 0,
     "total_hours": 0
   },
-  "prev_week": null,
-  "top10": [],
+  "top10": [
+    {
+      "title": "XO, Kitty",
+      "rank": 1,
+      "category": "series",
+      "is_non_english": false,
+      "country_flag": "🇺🇸",
+      "country": "英語",
+      "hours_viewed": 55.9,
+      "imdb_rating": null,
+      "air_date": null,
+      "prev_rank": null,
+      "streak_weeks": 1
+    },
+    {
+      "title": "Detective Hole",
+      "rank": 2,
+      "category": "series",
+      "is_non_english": true,
+      "country_flag": "🌏",
+      "country": "非英語",
+      "hours_viewed": 51.3,
+      "imdb_rating": null,
+      "air_date": null,
+      "prev_rank": null,
+      "streak_weeks": 1
+    },
+    {
+      "title": "Pursuit of Jade",
+      "rank": 3,
+      "category": "series",
+      "is_non_english": true,
+      "country_flag": "🌏",
+      "country": "非英語",
+      "hours_viewed": 48.1,
+      "imdb_rating": null,
+      "air_date": null,
+      "prev_rank": null,
+      "streak_weeks": 1
+    },
+    {
+      "title": "Something Very Bad Is Going to Happen",
+      "rank": 4,
+      "category": "series",
+      "is_non_english": false,
+      "country_flag": "🇺🇸",
+      "country": "英語",
+      "hours_viewed": 43.8,
+      "imdb_rating": null,
+      "air_date": null,
+      "prev_rank": null,
+      "streak_weeks": 1
+    },
+    {
+      "title": "Bloodhounds",
+      "rank": 5,
+      "category": "series",
+      "is_non_english": true,
+      "country_flag": "🌏",
+      "country": "非英語",
+      "hours_viewed": 35.0,
+      "imdb_rating": null,
+      "air_date": null,
+      "prev_rank": null,
+      "streak_weeks": 1
+    },
+    {
+      "title": "Beauty in Black",
+      "rank": 6,
+      "category": "series",
+      "is_non_english": false,
+      "country_flag": "🇺🇸",
+      "country": "英語",
+      "hours_viewed": 31.7,
+      "imdb_rating": null,
+      "air_date": null,
+      "prev_rank": null,
+      "streak_weeks": 1
+    },
+    {
+      "title": "ONE PIECE",
+      "rank": 7,
+      "category": "series",
+      "is_non_english": false,
+      "country_flag": "🇺🇸",
+      "country": "英語",
+      "hours_viewed": 28.5,
+      "imdb_rating": null,
+      "air_date": null,
+      "prev_rank": null,
+      "streak_weeks": 1
+    },
+    {
+      "title": "Humint",
+      "rank": 1,
+      "category": "movie",
+      "is_non_english": true,
+      "country_flag": "🌏",
+      "country": "非英語",
+      "hours_viewed": 21.8,
+      "imdb_rating": null,
+      "air_date": null,
+      "prev_rank": null,
+      "streak_weeks": 1
+    },
+    {
+      "title": "Radioactive Emergency",
+      "rank": 8,
+      "category": "series",
+      "is_non_english": true,
+      "country_flag": "🌏",
+      "country": "非英語",
+      "hours_viewed": 21.2,
+      "imdb_rating": null,
+      "air_date": null,
+      "prev_rank": null,
+      "streak_weeks": 1
+    },
+    {
+      "title": "Love on the Spectrum",
+      "rank": 9,
+      "category": "series",
+      "is_non_english": false,
+      "country_flag": "🇺🇸",
+      "country": "英語",
+      "hours_viewed": 20.4,
+      "imdb_rating": null,
+      "air_date": null,
+      "prev_rank": null,
+      "streak_weeks": 1
+    }
+  ],
   "by_category": {
-    "series": [],
-    "movie": [],
+    "series": [
+      {
+        "title": "XO, Kitty",
+        "rank": 1,
+        "category": "series",
+        "is_non_english": false,
+        "country_flag": "🇺🇸",
+        "country": "英語",
+        "hours_viewed": 55.9,
+        "imdb_rating": null,
+        "air_date": null,
+        "prev_rank": null,
+        "streak_weeks": 1
+      },
+      {
+        "title": "Detective Hole",
+        "rank": 2,
+        "category": "series",
+        "is_non_english": true,
+        "country_flag": "🌏",
+        "country": "非英語",
+        "hours_viewed": 51.3,
+        "imdb_rating": null,
+        "air_date": null,
+        "prev_rank": null,
+        "streak_weeks": 1
+      },
+      {
+        "title": "Pursuit of Jade",
+        "rank": 3,
+        "category": "series",
+        "is_non_english": true,
+        "country_flag": "🌏",
+        "country": "非英語",
+        "hours_viewed": 48.1,
+        "imdb_rating": null,
+        "air_date": null,
+        "prev_rank": null,
+        "streak_weeks": 1
+      },
+      {
+        "title": "Something Very Bad Is Going to Happen",
+        "rank": 4,
+        "category": "series",
+        "is_non_english": false,
+        "country_flag": "🇺🇸",
+        "country": "英語",
+        "hours_viewed": 43.8,
+        "imdb_rating": null,
+        "air_date": null,
+        "prev_rank": null,
+        "streak_weeks": 1
+      },
+      {
+        "title": "Bloodhounds",
+        "rank": 5,
+        "category": "series",
+        "is_non_english": true,
+        "country_flag": "🌏",
+        "country": "非英語",
+        "hours_viewed": 35.0,
+        "imdb_rating": null,
+        "air_date": null,
+        "prev_rank": null,
+        "streak_weeks": 1
+      },
+      {
+        "title": "Beauty in Black",
+        "rank": 6,
+        "category": "series",
+        "is_non_english": false,
+        "country_flag": "🇺🇸",
+        "country": "英語",
+        "hours_viewed": 31.7,
+        "imdb_rating": null,
+        "air_date": null,
+        "prev_rank": null,
+        "streak_weeks": 1
+      },
+      {
+        "title": "ONE PIECE",
+        "rank": 7,
+        "category": "series",
+        "is_non_english": false,
+        "country_flag": "🇺🇸",
+        "country": "英語",
+        "hours_viewed": 28.5,
+        "imdb_rating": null,
+        "air_date": null,
+        "prev_rank": null,
+        "streak_weeks": 1
+      },
+      {
+        "title": "Radioactive Emergency",
+        "rank": 8,
+        "category": "series",
+        "is_non_english": true,
+        "country_flag": "🌏",
+        "country": "非英語",
+        "hours_viewed": 21.2,
+        "imdb_rating": null,
+        "air_date": null,
+        "prev_rank": null,
+        "streak_weeks": 1
+      },
+      {
+        "title": "Love on the Spectrum",
+        "rank": 9,
+        "category": "series",
+        "is_non_english": false,
+        "country_flag": "🇺🇸",
+        "country": "英語",
+        "hours_viewed": 20.4,
+        "imdb_rating": null,
+        "air_date": null,
+        "prev_rank": null,
+        "streak_weeks": 1
+      },
+      {
+        "title": "Virgin River",
+        "rank": 10,
+        "category": "series",
+        "is_non_english": false,
+        "country_flag": "🇺🇸",
+        "country": "英語",
+        "hours_viewed": 19.9,
+        "imdb_rating": null,
+        "air_date": null,
+        "prev_rank": null,
+        "streak_weeks": 1
+      }
+    ],
+    "movie": [
+      {
+        "title": "Humint",
+        "rank": 1,
+        "category": "movie",
+        "is_non_english": true,
+        "country_flag": "🌏",
+        "country": "非英語",
+        "hours_viewed": 21.8,
+        "imdb_rating": null,
+        "air_date": null,
+        "prev_rank": null,
+        "streak_weeks": 1
+      },
+      {
+        "title": "Anaconda",
+        "rank": 2,
+        "category": "movie",
+        "is_non_english": false,
+        "country_flag": "🇺🇸",
+        "country": "英語",
+        "hours_viewed": 16.4,
+        "imdb_rating": null,
+        "air_date": null,
+        "prev_rank": null,
+        "streak_weeks": 1
+      },
+      {
+        "title": "The Red Line",
+        "rank": 3,
+        "category": "movie",
+        "is_non_english": true,
+        "country_flag": "🌏",
+        "country": "非英語",
+        "hours_viewed": 14.7,
+        "imdb_rating": null,
+        "air_date": null,
+        "prev_rank": null,
+        "streak_weeks": 1
+      },
+      {
+        "title": "Mardaani 3",
+        "rank": 4,
+        "category": "movie",
+        "is_non_english": true,
+        "country_flag": "🌏",
+        "country": "非英語",
+        "hours_viewed": 13.7,
+        "imdb_rating": null,
+        "air_date": null,
+        "prev_rank": null,
+        "streak_weeks": 1
+      },
+      {
+        "title": "40 Acres",
+        "rank": 5,
+        "category": "movie",
+        "is_non_english": false,
+        "country_flag": "🇺🇸",
+        "country": "英語",
+        "hours_viewed": 11.7,
+        "imdb_rating": null,
+        "air_date": null,
+        "prev_rank": null,
+        "streak_weeks": 1
+      },
+      {
+        "title": "Untold: The Death & Life of Lamar Odom",
+        "rank": 6,
+        "category": "movie",
+        "is_non_english": false,
+        "country_flag": "🇺🇸",
+        "country": "英語",
+        "hours_viewed": 11.4,
+        "imdb_rating": null,
+        "air_date": null,
+        "prev_rank": null,
+        "streak_weeks": 1
+      },
+      {
+        "title": "Peaky Blinders: The Immortal Man",
+        "rank": 7,
+        "category": "movie",
+        "is_non_english": false,
+        "country_flag": "🇺🇸",
+        "country": "英語",
+        "hours_viewed": 11.3,
+        "imdb_rating": null,
+        "air_date": null,
+        "prev_rank": null,
+        "streak_weeks": 1
+      },
+      {
+        "title": "War Machine",
+        "rank": 8,
+        "category": "movie",
+        "is_non_english": false,
+        "country_flag": "🇺🇸",
+        "country": "英語",
+        "hours_viewed": 11.1,
+        "imdb_rating": null,
+        "air_date": null,
+        "prev_rank": null,
+        "streak_weeks": 1
+      },
+      {
+        "title": "The Truth and Tragedy of Moriah Wilson",
+        "rank": 9,
+        "category": "movie",
+        "is_non_english": false,
+        "country_flag": "🇺🇸",
+        "country": "英語",
+        "hours_viewed": 11.0,
+        "imdb_rating": null,
+        "air_date": null,
+        "prev_rank": null,
+        "streak_weeks": 1
+      },
+      {
+        "title": "Eat Pray Bark",
+        "rank": 10,
+        "category": "movie",
+        "is_non_english": true,
+        "country_flag": "🌏",
+        "country": "非英語",
+        "hours_viewed": 10.7,
+        "imdb_rating": null,
+        "air_date": null,
+        "prev_rank": null,
+        "streak_weeks": 1
+      }
+    ],
     "show": []
   },
-  "history": [],
+  "history": [
+    {
+      "week": "2026-04-05",
+      "tw_hours": 177.4,
+      "total_hours": 357.7
+    }
+  ],
   "breakdown": {
-    "series_pct": 0,
-    "movie_pct": 0,
+    "series_pct": 93.9,
+    "movie_pct": 6.1,
     "show_pct": 0,
-    "countries": []
-  }
+    "countries": [
+      {
+        "flag": "🌏",
+        "name": "非英語作品",
+        "pct": 49.6
+      },
+      {
+        "flag": "🇺🇸",
+        "name": "英語作品",
+        "pct": 50.4
+      }
+    ]
+  },
+  "omdb_cache": {}
 }
